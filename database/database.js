@@ -4,18 +4,23 @@ const path = require("node:path")
 
 const DB_PATH = path.join(__dirname, "..", "todo.db")
 
-let db
+let db = null
 
 async function getDb() {
-  if (db) return db
+  if (db) {
+    return db
+  }
+
   console.log("initializing database connection")
   const SQL = await initSqlJs()
+
   if (fs.existsSync(DB_PATH)) {
     const buffer = fs.readFileSync(DB_PATH)
     db = new SQL.Database(buffer)
   } else {
     db = new SQL.Database()
   }
+
   db.run(`
     CREATE TABLE IF NOT EXISTS todos (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,6 +29,7 @@ async function getDb() {
       status TEXT DEFAULT 'pending'
     )
   `)
+
   return db
 }
 
