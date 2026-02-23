@@ -9,7 +9,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "sql.js": "^1.6.0",
-    "lodash": "4.17.20",
+    "lodash": "4.17.23",
     "moment": "2.29.1"
   }
 }
