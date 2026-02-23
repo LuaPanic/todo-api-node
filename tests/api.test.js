@@ -70,13 +70,11 @@ describe("POST /todos", () => {
   })
 
   it("creates a todo with all fields", async () => {
-    const res = await request(app)
-      .post("/todos")
-      .send({
-        title: "Full todo",
-        description: "A description",
-        status: "done",
-      })
+    const res = await request(app).post("/todos").send({
+      title: "Full todo",
+      description: "A description",
+      status: "done",
+    })
 
     expect(res.status).toBe(201)
     expect(res.body.title).toBe("Full todo")
