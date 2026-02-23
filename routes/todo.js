@@ -1,5 +1,5 @@
-const { Router } = require("express")
-const { getDb, saveDb } = require("../database/database")
+import { Router } from "express"
+import { getDb, saveDb } from "../database/database.js"
 
 const router = Router()
 
@@ -123,4 +123,4 @@ function toArray(rows) {
   })
 }
 
-module.exports = router
+export default router

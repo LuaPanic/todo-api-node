@@ -1,12 +1,14 @@
-const initSqlJs = require("sql.js")
-const fs = require("node:fs")
-const path = require("node:path")
+import initSqlJs from "sql.js"
+import fs from "node:fs"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DB_PATH = path.join(__dirname, "..", "todo.db")
 
 let db = null
 
-async function getDb() {
+export async function getDb() {
   if (db) {
     return db
   }
@@ -33,12 +35,10 @@ async function getDb() {
   return db
 }
 
-function saveDb() {
+export function saveDb() {
   if (db) {
     console.log("saving database to disk")
     const data = db.export()
     fs.writeFileSync(DB_PATH, Buffer.from(data))
   }
 }
-
-module.exports = { getDb, saveDb }

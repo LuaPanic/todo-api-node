@@ -1,8 +1,8 @@
-require("dotenv").config({
-  quiet: true,
-})
-const express = require("express")
-const todoRouter = require("./routes/todo")
+import dotenv from "dotenv"
+import express from "express"
+import todoRouter from "./routes/todo.js"
+
+dotenv.config({ quiet: true })
 
 const app = express()
 app.use(express.json())
@@ -29,8 +29,11 @@ app.get("/health-check", (_req, res) => {
 app.use("/todos", todoRouter)
 
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`),
-)
 
-module.exports = app
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () =>
+    console.log(`Server running on http://localhost:${PORT}`),
+  )
+}
+
+export default app

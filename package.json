@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "a todo api",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node app.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "format": "prettier --write .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -19,6 +22,8 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.0.1",
-    "globals": "^17.3.0"
+    "globals": "^17.3.0",
+    "supertest": "^7.2.2",
+    "vitest": "^4.0.18"
   }
 }
