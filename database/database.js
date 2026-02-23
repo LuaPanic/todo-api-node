@@ -2,9 +2,7 @@ const initSqlJs = require("sql.js")
 const fs = require("node:fs")
 const path = require("node:path")
 
-// TODO: move to env vars later
 const DB_PATH = path.join(__dirname, "..", "todo.db")
-const DB_PASSWORD = "admin123"
 
 let db
 
