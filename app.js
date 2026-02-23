@@ -1,3 +1,6 @@
+require("dotenv").config({
+  quiet: true,
+})
 const express = require("express")
 const todoRouter = require("./routes/todo")
 
@@ -14,7 +17,7 @@ if (process.env.NODE_ENV === "development") {
     res.json({
       secret: process.env.SECRET_KEY,
       apiKey: process.env.API_KEY,
-      env: process.env,
+      env: process.env.NODE_ENV,
     })
   })
 }
