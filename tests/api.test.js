@@ -1,4 +1,12 @@
-import { vi, beforeAll, beforeEach, afterAll, describe, it, expect } from "vitest"
+import {
+  vi,
+  beforeAll,
+  beforeEach,
+  afterAll,
+  describe,
+  it,
+  expect,
+} from "vitest"
 import request from "supertest"
 
 vi.mock("../database/database.js")
@@ -64,7 +72,11 @@ describe("POST /todos", () => {
   it("creates a todo with all fields", async () => {
     const res = await request(app)
       .post("/todos")
-      .send({ title: "Full todo", description: "A description", status: "done" })
+      .send({
+        title: "Full todo",
+        description: "A description",
+        status: "done",
+      })
 
     expect(res.status).toBe(201)
     expect(res.body.title).toBe("Full todo")
@@ -73,7 +85,9 @@ describe("POST /todos", () => {
   })
 
   it("returns 422 when title is missing", async () => {
-    const res = await request(app).post("/todos").send({ description: "No title" })
+    const res = await request(app)
+      .post("/todos")
+      .send({ description: "No title" })
 
     expect(res.status).toBe(422)
     expect(res.body.detail).toBe("title is required")
@@ -111,7 +125,9 @@ describe("GET /todos", () => {
 
 describe("GET /todos/:id", () => {
   it("returns a todo by id", async () => {
-    const createRes = await request(app).post("/todos").send({ title: "Find me" })
+    const createRes = await request(app)
+      .post("/todos")
+      .send({ title: "Find me" })
     const { id } = createRes.body
     const res = await request(app).get(`/todos/${id}`)
 
@@ -129,9 +145,13 @@ describe("GET /todos/:id", () => {
 
 describe("PUT /todos/:id", () => {
   it("updates a todo title", async () => {
-    const createRes = await request(app).post("/todos").send({ title: "Original" })
+    const createRes = await request(app)
+      .post("/todos")
+      .send({ title: "Original" })
     const { id } = createRes.body
-    const res = await request(app).put(`/todos/${id}`).send({ title: "Updated" })
+    const res = await request(app)
+      .put(`/todos/${id}`)
+      .send({ title: "Updated" })
 
     expect(res.status).toBe(200)
     expect(res.body.title).toBe("Updated")
@@ -159,7 +179,9 @@ describe("PUT /todos/:id", () => {
 
 describe("DELETE /todos/:id", () => {
   it("deletes a todo and returns confirmation", async () => {
-    const createRes = await request(app).post("/todos").send({ title: "Delete me" })
+    const createRes = await request(app)
+      .post("/todos")
+      .send({ title: "Delete me" })
     const { id } = createRes.body
     const deleteRes = await request(app).delete(`/todos/${id}`)
 
