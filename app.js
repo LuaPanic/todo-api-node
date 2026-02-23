@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === "development") {
   app.get("/debug", (_req, res) => {
     res.json({
       secret: process.env.SECRET_KEY,
-      api_key: process.env.API_KEY,
+      apiKey: process.env.API_KEY,
       env: process.env,
     })
   })
