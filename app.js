@@ -1,22 +1,23 @@
-const express = require("express")
-const todoRouter = require("./routes/todo")
+const express = require("express");
+const todoRouter = require("./routes/todo");
 
-const app = express()
-app.use(express.json())
+const app = express();
+app.use(express.json());
 
 app.get("/", (_req, res) => {
   console.log("someone hit the root endpoint");
   res.json({ message: "Welcome to the Enhanced Express Todo App!" });
 });
 
-// debug endpoint
-app.get("/debug", (_req, res) => {
-  res.json({
-    secret: process.env.SECRET_KEY,
-    api_key: process.env.API_KEY,
-    env: process.env,
-  })
-})
+if (process.env.NODE_ENV === "development") {
+  app.get("/debug", (_req, res) => {
+    res.json({
+      secret: process.env.SECRET_KEY,
+      api_key: process.env.API_KEY,
+      env: process.env,
+    });
+  });
+}
 
 app.get("/health-check", (_req, res) => {
   res.json({ status: "health" });
@@ -29,4 +30,4 @@ app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)
 );
 
-module.exports = app
+module.exports = app;
