@@ -78,5 +78,6 @@ jobs:
           API_KEY: ${{ secrets.API_KEY }}
           APP_PORT: ${{ vars.APP_PORT }}
         run: |
+          # deploy via ssh docker compose on self-hosted runner
           docker compose pull
           docker compose up -d --remove-orphans --force-recreate
