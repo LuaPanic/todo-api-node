@@ -17,10 +17,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
           node-version: 24
           cache: npm
@@ -47,4 +47,16 @@ jobs:
           APP_PID=$!
           npx wait-on http://localhost:3000/health --timeout 10000
           curl --fail http://localhost:3000/health
+          kill $APP_PID
+
+      - name: Performance tests (Artillery)
+        env:
+          NODE_ENV: production
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          API_KEY: ${{ secrets.API_KEY }}
+        run: |
+          node app.js &
+          APP_PID=$!
+          npx wait-on http://localhost:3000/health --timeout 10000
+          npx --yes artillery quick --count 10 --num 5 http://localhost:3000/health
           kill $APP_PID

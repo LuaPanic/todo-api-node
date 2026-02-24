@@ -37,7 +37,7 @@ app.get("/health", (_req, res) => {
 // API docs available at /api-docs
 app.use("/api-docs", apiReference({ spec: { content: swaggerSpec } }))
 
-// Mount the todo router under /todos
+// Mount the todos router under /todos
 app.use("/todos", todoRouter)
 
 const PORT = process.env.PORT || 3000
