@@ -15,6 +15,7 @@ FROM alpine:3.21 AS runner
 RUN apk add --no-cache nodejs
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules/swagger-ui-dist ./node_modules/swagger-ui-dist
 
 EXPOSE 3000
 
