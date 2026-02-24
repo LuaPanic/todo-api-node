@@ -12,7 +12,7 @@ env:
 
 jobs:
   cd:
-    name: build, publish & deploy
+    name: Build & Publish
     runs-on: ubuntu-latest
 
     permissions:
@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -55,11 +55,40 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
-  deploy:
-    name: Deploy
+  deploy-staging:
+    name: Deploy to staging
+    runs-on: homelab
+    needs: cd
+    if: github.ref == 'refs/heads/dev'
+    environment: staging
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull and restart
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          API_KEY: ${{ secrets.API_KEY }}
+          APP_PORT: ${{ vars.APP_PORT }}
+        run: |
+          # deploy via ssh docker compose on self-hosted runner
+          docker compose pull
+          docker compose up -d --remove-orphans --force-recreate
+
+  deploy-production:
+    name: Deploy to production
     runs-on: homelab
     needs: cd
     if: github.ref == 'refs/heads/main'
+    environment: production
 
     steps:
       - name: Checkout
