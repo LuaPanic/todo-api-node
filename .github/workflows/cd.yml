@@ -73,6 +73,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pull and restart
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          API_KEY: ${{ secrets.API_KEY }}
         run: |
           docker compose pull
           docker compose up -d --remove-orphans
