@@ -1,3 +1,4 @@
+// CRUD routes for the /todos resource
 import { Router } from "express"
 import { getDb, saveDb } from "../database/database.js"
 
@@ -96,7 +97,9 @@ router.get("/search/all", async (req, res) => {
   res.json(toArray(results))
 })
 
-// Helpers
+// Helpers to convert sql.js result sets into plain objects
+
+// Converts a single-row sql.js result into a plain object
 function toObj(rows) {
   const cols = rows[0].columns
   const [vals] = rows[0].values
@@ -108,6 +111,7 @@ function toObj(rows) {
   return obj
 }
 
+// Converts a multi-row sql.js result into an array of plain objects
 function toArray(rows) {
   if (!rows.length) {
     return []

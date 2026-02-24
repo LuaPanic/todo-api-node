@@ -32,10 +32,10 @@ jobs:
         run: npm run format
 
       - name: Lint
-        run: npm run lint
+        run: npm run eslint
 
       - name: Tests
-        run: npm test
+        run: npx vitest run --coverage
 
       - name: Health check
         env:
