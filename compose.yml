@@ -1,0 +1,9 @@
+services:
+  app:
+    image: ghcr.io/luapanic/todo-api-node:main
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - SECRET_KEY
+      - API_KEY
