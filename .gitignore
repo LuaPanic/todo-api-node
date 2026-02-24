@@ -4,3 +4,4 @@ node_modules/
 todo.db
 .secrets
 dist/
+.actrc
