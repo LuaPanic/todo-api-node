@@ -10,8 +10,8 @@
     "test:watch": "vitest",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint . --fix",
     "build": "node esbuild.config.js"
   },
   "dependencies": {
