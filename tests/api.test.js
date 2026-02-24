@@ -226,3 +226,32 @@ describe("GET /todos/search/all", () => {
     expect(res.body).toHaveLength(0)
   })
 })
+
+describe("GET /debug (development mode)", () => {
+  let devApp = null
+
+  beforeAll(async () => {
+    vi.stubEnv("NODE_ENV", "development")
+    vi.stubEnv("PORT", "0")
+    vi.resetModules()
+    const { getDb: devGetDb } = await import("../database/database.js")
+    devGetDb.mockResolvedValue(testDb)
+    const mod = await import("../app.js")
+    devApp = mod.default
+    // Allow time for the listen callback to be invoked
+    await new Promise((resolve) => {
+      setTimeout(resolve, 50)
+    })
+  })
+
+  afterAll(() => {
+    vi.unstubAllEnvs()
+  })
+
+  it("returns debug info in development mode", async () => {
+    const res = await request(devApp).get("/debug")
+
+    expect(res.status).toBe(200)
+    expect(res.body).toHaveProperty("env", "development")
+  })
+})
