@@ -11,7 +11,8 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "build": "node esbuild.config.js"
   },
   "dependencies": {
     "dotenv": "^17.3.1",
@@ -26,6 +27,7 @@
     "globals": "^17.3.0",
     "prettier": "^3.8.1",
     "supertest": "^7.2.2",
-    "vitest": "^4.0.18"
+    "vitest": "^4.0.18",
+    "esbuild": "^0.27.3"
   }
 }
