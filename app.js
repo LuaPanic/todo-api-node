@@ -1,9 +1,9 @@
 // Entry point of the Express application
+import { apiReference } from "@scalar/express-api-reference"
 import dotenv from "dotenv"
 import express from "express"
-import { apiReference } from "@scalar/express-api-reference"
-import { swaggerSpec } from "./swagger.js"
 import todoRouter from "./routes/todo.js"
+import { swaggerSpec } from "./swagger.js"
 
 // Load environment variables from .env file
 dotenv.config({ quiet: true })
@@ -30,8 +30,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Health check endpoint used by CI and monitoring
-app.get("/health-check", (_req, res) => {
-  res.json({ status: "health" })
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok", uptime: process.uptime() })
 })
 
 // API docs available at /api-docs

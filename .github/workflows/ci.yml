@@ -45,6 +45,6 @@ jobs:
         run: |
           node app.js &
           APP_PID=$!
-          npx wait-on http://localhost:3000/health-check --timeout 10000
-          curl --fail http://localhost:3000/health-check
+          npx wait-on http://localhost:3000/health --timeout 10000
+          curl --fail http://localhost:3000/health
           kill $APP_PID

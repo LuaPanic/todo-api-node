@@ -228,7 +228,7 @@ export const swaggerSpec = {
         },
       },
     },
-    "/health-check": {
+    "/health": {
       get: {
         summary: "Health check",
         tags: ["System"],

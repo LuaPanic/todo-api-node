@@ -123,10 +123,10 @@ http://localhost:3000
 
 #### System
 
-| Method | Path            | Description     |
-| ------ | --------------- | --------------- |
-| GET    | `/`             | Welcome message |
-| GET    | `/health-check` | Health check    |
+| Method | Path      | Description     |
+| ------ | --------- | --------------- |
+| GET    | `/`       | Welcome message |
+| GET    | `/health` | Health check    |
 
 #### Todos
 
@@ -265,7 +265,7 @@ Searches todos whose title contains the query string (case-insensitive `LIKE`).
 1. Format check (`prettier`)
 2. Lint (`eslint`)
 3. Tests with coverage (`vitest`)
-4. Health check (starts the server and hits `/health-check`)
+4. Health check (starts the server and hits `/health`)
 
 ### CD — on push to `main` / `dev`
 

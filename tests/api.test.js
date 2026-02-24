@@ -1,19 +1,19 @@
+import request from "supertest"
 import {
-  vi,
+  afterAll,
   beforeAll,
   beforeEach,
-  afterAll,
   describe,
-  it,
   expect,
+  it,
+  vi,
 } from "vitest"
-import request from "supertest"
 
 vi.mock("../database/database.js")
 
-import { getDb } from "../database/database.js"
 import initSqlJs from "sql.js"
 import app from "../app.js"
+import { getDb } from "../database/database.js"
 
 let testDb = null
 
@@ -49,12 +49,12 @@ describe("GET /", () => {
   })
 })
 
-describe("GET /health-check", () => {
+describe("GET /health", () => {
   it("returns health status", async () => {
-    const res = await request(app).get("/health-check")
+    const res = await request(app).get("/health")
 
     expect(res.status).toBe(200)
-    expect(res.body.status).toBe("health")
+    expect(res.body.status).toBe("ok")
   })
 })
 
