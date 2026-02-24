@@ -79,4 +79,4 @@ jobs:
           APP_PORT: ${{ vars.APP_PORT }}
         run: |
           docker compose pull
-          docker compose up -d --remove-orphans
+          APP_PORT=$APP_PORT docker compose up -d --remove-orphans
