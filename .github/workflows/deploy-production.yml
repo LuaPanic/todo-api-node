@@ -1,0 +1,38 @@
+name: Deploy to production
+
+on:
+  workflow_run:
+    workflows: ["CD"]
+    branches: [main]
+    types: [completed]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  deploy-production:
+    name: Deploy to production
+    runs-on: homelab
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull and restart
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          API_KEY: ${{ secrets.API_KEY }}
+          APP_PORT: ${{ vars.APP_PORT }}
+        run: |
+          # deploy via ssh docker compose on self-hosted runner
+          docker compose -p production pull
+          docker compose -p production up -d --remove-orphans --force-recreate
