@@ -12,7 +12,6 @@ router.post("/", async (req, res) => {
     return res.status(422).json({ detail: "title is required" })
   }
 
-  console.log(`creating todo: ${title}`)
   const db = await getDb()
   db.run("INSERT INTO todos (title, description, status) VALUES (?, ?, ?)", [
     title,
@@ -23,6 +22,8 @@ router.post("/", async (req, res) => {
   const row = db.exec("SELECT * FROM todos WHERE id = ?", [id])
   saveDb()
   const todo = toObj(row)
+
+  console.log(`created todo ${todo.id}`)
 
   return res.status(201).json(todo)
 })
