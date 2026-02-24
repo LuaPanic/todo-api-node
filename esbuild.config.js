@@ -5,6 +5,7 @@ esbuild.build({
   bundle: true,
   minify: true,
   platform: "node",
-  outfile: "dist/index.cjs",
+  outfile: "dist/index.mjs",
+  format: "esm",
   sourcemap: true,
 })
