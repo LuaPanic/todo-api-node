@@ -1,7 +1,7 @@
 // Entry point of the Express application
 import dotenv from "dotenv"
 import express from "express"
-import swaggerUi from "swagger-ui-express"
+import { apiReference } from "@scalar/express-api-reference"
 import { swaggerSpec } from "./swagger.js"
 import todoRouter from "./routes/todo.js"
 
@@ -34,8 +34,8 @@ app.get("/health-check", (_req, res) => {
   res.json({ status: "health" })
 })
 
-// Swagger UI available at /api-docs
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+// API docs available at /api-docs
+app.use("/api-docs", apiReference({ spec: { content: swaggerSpec } }))
 
 // Mount the todo router under /todos
 app.use("/todos", todoRouter)
