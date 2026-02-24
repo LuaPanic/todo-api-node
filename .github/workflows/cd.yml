@@ -57,7 +57,7 @@ jobs:
 
   deploy:
     name: Deploy
-    runs-on: homelab-runner
+    runs-on: homelab
     needs: cd
     if: github.ref == 'refs/heads/main'
 
