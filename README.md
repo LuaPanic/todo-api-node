@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/LuaPanic/todo-api-node/actions/workflows/ci.yml/badge.svg)](https://github.com/LuaPanic/todo-api-node/actions/workflows/ci.yml)
 [![CD](https://github.com/LuaPanic/todo-api-node/actions/workflows/cd.yml/badge.svg)](https://github.com/LuaPanic/todo-api-node/actions/workflows/cd.yml)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=LuaPanic_todo-api-node&metric=coverage)](https://sonarcloud.io/summary/new_code?id=LuaPanic_todo-api-node)
 [![Node.js](https://img.shields.io/badge/Node.js-24-green?logo=node.js)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-5-black?logo=express)](https://expressjs.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
