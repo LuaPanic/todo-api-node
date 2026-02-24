@@ -1,4 +1,4 @@
-// Static OpenAPI 3.0 specification for the Todo API
+// Static OpenAPI 3.0 specification for the Todos API
 export const swaggerSpec = {
   openapi: "3.0.0",
   info: {
