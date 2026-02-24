@@ -76,6 +76,7 @@ jobs:
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           API_KEY: ${{ secrets.API_KEY }}
+          APP_PORT: ${{ vars.APP_PORT }}
         run: |
           docker compose pull
           docker compose up -d --remove-orphans
