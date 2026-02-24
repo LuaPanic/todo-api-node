@@ -12,7 +12,8 @@
     "format:fix": "prettier --write .",
     "eslint": "eslint .",
     "eslint:fix": "eslint . --fix",
-    "build": "node esbuild.config.js"
+    "build": "node esbuild.config.js",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@scalar/express-api-reference": "^0.8.44",
