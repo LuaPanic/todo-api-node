@@ -80,8 +80,8 @@ jobs:
           APP_PORT: ${{ vars.APP_PORT }}
         run: |
           # deploy via ssh docker compose on self-hosted runner
-          docker compose pull
-          docker compose up -d --remove-orphans --force-recreate
+          docker compose -p staging pull
+          docker compose -p staging up -d --remove-orphans --force-recreate
 
   deploy-production:
     name: Deploy to production
@@ -108,5 +108,5 @@ jobs:
           APP_PORT: ${{ vars.APP_PORT }}
         run: |
           # deploy via ssh docker compose on self-hosted runner
-          docker compose pull
-          docker compose up -d --remove-orphans --force-recreate
+          docker compose -p production pull
+          docker compose -p production up -d --remove-orphans --force-recreate
