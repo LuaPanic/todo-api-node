@@ -51,12 +51,12 @@ SECRET_KEY=your-secret-key
 API_KEY=your-api-key
 ```
 
-| Variable     | Default       | Description                              |
-|--------------|---------------|------------------------------------------|
-| `PORT`       | `3000`        | Port the server listens on               |
-| `NODE_ENV`   | *(unset)*     | Set to `development` to enable `/debug`  |
-| `SECRET_KEY` | *(unset)*     | Exposed by the `/debug` endpoint         |
-| `API_KEY`    | *(unset)*     | Exposed by the `/debug` endpoint         |
+| Variable     | Default   | Description                             |
+| ------------ | --------- | --------------------------------------- |
+| `PORT`       | `3000`    | Port the server listens on              |
+| `NODE_ENV`   | _(unset)_ | Set to `development` to enable `/debug` |
+| `SECRET_KEY` | _(unset)_ | Exposed by the `/debug` endpoint        |
+| `API_KEY`    | _(unset)_ | Exposed by the `/debug` endpoint        |
 
 ---
 
@@ -123,21 +123,21 @@ http://localhost:3000
 
 #### System
 
-| Method | Path            | Description       |
-|--------|-----------------|-------------------|
-| GET    | `/`             | Welcome message   |
-| GET    | `/health-check` | Health check      |
+| Method | Path            | Description     |
+| ------ | --------------- | --------------- |
+| GET    | `/`             | Welcome message |
+| GET    | `/health-check` | Health check    |
 
 #### Todos
 
-| Method | Path                 | Description                      |
-|--------|----------------------|----------------------------------|
-| GET    | `/todos`             | List all todos (paginated)        |
-| POST   | `/todos`             | Create a new todo                 |
-| GET    | `/todos/:id`         | Get a single todo by ID           |
-| PUT    | `/todos/:id`         | Update a todo by ID               |
-| DELETE | `/todos/:id`         | Delete a todo by ID               |
-| GET    | `/todos/search/all`  | Search todos by title             |
+| Method | Path                | Description                |
+| ------ | ------------------- | -------------------------- |
+| GET    | `/todos`            | List all todos (paginated) |
+| POST   | `/todos`            | Create a new todo          |
+| GET    | `/todos/:id`        | Get a single todo by ID    |
+| PUT    | `/todos/:id`        | Update a todo by ID        |
+| DELETE | `/todos/:id`        | Delete a todo by ID        |
+| GET    | `/todos/search/all` | Search todos by title      |
 
 ---
 
@@ -147,10 +147,10 @@ Returns a paginated list of todos.
 
 **Query parameters**
 
-| Parameter | Type    | Default | Description               |
-|-----------|---------|---------|---------------------------|
-| `skip`    | integer | `0`     | Number of items to skip   |
-| `limit`   | integer | `10`    | Maximum items to return   |
+| Parameter | Type    | Default | Description             |
+| --------- | ------- | ------- | ----------------------- |
+| `skip`    | integer | `0`     | Number of items to skip |
+| `limit`   | integer | `10`    | Maximum items to return |
 
 **Response `200`**
 
@@ -181,11 +181,11 @@ Creates a new todo.
 }
 ```
 
-| Field         | Type   | Required | Description            |
-|---------------|--------|----------|------------------------|
-| `title`       | string | Yes      | Title of the todo      |
-| `description` | string | No       | Optional description   |
-| `status`      | string | No       | Defaults to `pending`  |
+| Field         | Type   | Required | Description           |
+| ------------- | ------ | -------- | --------------------- |
+| `title`       | string | Yes      | Title of the todo     |
+| `description` | string | No       | Optional description  |
+| `status`      | string | No       | Defaults to `pending` |
 
 **Response `201`** — the created todo object.
 
@@ -250,9 +250,9 @@ Searches todos whose title contains the query string (case-insensitive `LIKE`).
 
 **Query parameters**
 
-| Parameter | Type   | Description   |
-|-----------|--------|---------------|
-| `q`       | string | Search term   |
+| Parameter | Type   | Description |
+| --------- | ------ | ----------- |
+| `q`       | string | Search term |
 
 **Response `200`** — array of matching todo objects.
 
