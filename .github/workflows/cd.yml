@@ -39,7 +39,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@b5730b3a1af73a7239870d21f5b5dce1cc97e62d
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f
 
       - name: Build and push Docker image
         id: push
