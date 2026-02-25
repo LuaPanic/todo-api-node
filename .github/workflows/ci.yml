@@ -39,7 +39,14 @@ jobs:
       - name: Tests
         run: npx vitest run --coverage
 
-      - name: Health check
+      - name: Upload coverage
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 1
+
+      - name: Health check & Performance tests (Artillery)
         env:
           NODE_ENV: production
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -49,17 +56,6 @@ jobs:
           APP_PID=$!
           npx wait-on http://localhost:3000/health --timeout 10000
           curl --fail http://localhost:3000/health
-          kill $APP_PID
-
-      - name: Performance tests (Artillery)
-        env:
-          NODE_ENV: production
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          API_KEY: ${{ secrets.API_KEY }}
-        run: |
-          node app.js &
-          APP_PID=$!
-          npx wait-on http://localhost:3000/health --timeout 10000
           npx --yes artillery quick --count 10 --num 5 http://localhost:3000/health
           kill $APP_PID
 
@@ -71,6 +67,12 @@ jobs:
           format: table
           exit-code: 1
           severity: CRITICAL,HIGH
+
+      - name: Download coverage for SonarCloud
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: coverage
+          path: coverage/
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@383f7e52eae3ab0510c3cb0e7d9d150bbaeab838
