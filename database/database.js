@@ -3,6 +3,7 @@ import initSqlJs from "sql.js"
 import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import logger from "../logger.js"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 // Path to the SQLite database file on disk
@@ -17,7 +18,7 @@ export async function getDb() {
     return db
   }
 
-  console.log("initializing database connection")
+  logger.info("initializing database connection")
   const SQL = await initSqlJs()
 
   // Load existing database file or create a new in-memory database
@@ -44,7 +45,7 @@ export async function getDb() {
 // Persists the in-memory database to the file system
 export function saveDb() {
   if (db) {
-    console.log("saving database to disk")
+    logger.info("saving database to disk")
     const data = db.export()
     fs.writeFileSync(DB_PATH, Buffer.from(data))
   }
