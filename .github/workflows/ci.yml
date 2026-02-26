@@ -116,3 +116,32 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: [lint-test, perf-tests, security]
+    if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
+    steps:
+      - name: Determine status
+        id: status
+        run: |
+          if [[ "${{ needs.lint-test.result }}" == "success" && \
+                "${{ needs.perf-tests.result }}" == "success" && \
+                "${{ needs.security.result }}" == "success" ]]; then
+            echo "severity=info" >> $GITHUB_OUTPUT
+            echo "label=succes" >> $GITHUB_OUTPUT
+          else
+            echo "severity=error" >> $GITHUB_OUTPUT
+            echo "label=echec" >> $GITHUB_OUTPUT
+          fi
+      - name: Send Discord notification
+        uses: rjstone/discord-webhook-notify@v2
+        with:
+          severity: ${{ steps.status.outputs.severity }}
+          username: GitHub CI
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          text: "CI ${{ steps.status.outputs.label }} — ${{ github.ref_name }}"
+          details: |
+            Commit `${{ github.sha }}` par **${{ github.actor }}**
+            lint-test: ${{ needs.lint-test.result }} | perf-tests: ${{ needs.perf-tests.result }} | security: ${{ needs.security.result }}
+          footer: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
