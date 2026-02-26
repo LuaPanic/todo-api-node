@@ -8,9 +8,13 @@ on:
 
 jobs:
   ci:
-    name: Format, Lint & Tests
+    # name: Format, Lint & Tests
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+      fail-fast: false
+    name: Format, Lint & Tests (node ${{ matrix.node-version }})
     env:
       NODE_ENV: test
       PORT: 3000
@@ -42,7 +46,7 @@ jobs:
       - name: Upload coverage
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: coverage
+          name: coverage-node-${{ matrix.node-version }}
           path: coverage/
           retention-days: 1
 
@@ -71,7 +75,7 @@ jobs:
       - name: Download coverage for SonarCloud
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
-          name: coverage
+          name: coverage-node-${{ matrix.node-version }}
           path: coverage/
 
       - name: SonarCloud Scan
