@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
   saveDb()
   const todo = toObj(row)
 
-  console.log(`created todo ${todo.id}`)
+  req.log.info({ id: todo.id }, "created todo")
 
   return res.status(201).json(todo)
 })
@@ -35,7 +35,7 @@ router.get("/", async (req, res) => {
   const db = await getDb()
   const rows = db.exec("SELECT * FROM todos LIMIT ? OFFSET ?", [limit, skip])
   const todos = toArray(rows)
-  console.log(`found ${todos.length} todos`)
+  req.log.info({ count: todos.length }, "found todos")
   res.json(todos)
 })
 
