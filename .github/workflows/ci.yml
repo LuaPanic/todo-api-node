@@ -107,8 +107,9 @@ jobs:
       - name: Download coverage for SonarCloud
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
-          name: coverage
+          pattern: coverage-node-*
           path: coverage/
+          merge-multiple: true
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@383f7e52eae3ab0510c3cb0e7d9d150bbaeab838
