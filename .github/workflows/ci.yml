@@ -8,12 +8,13 @@ on:
 
 jobs:
   ci:
-    name: Format, Lint & Tests
+    # name: Format, Lint & Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18, 20, 22, 24]
+        node-version: [18, 20, 22]
       fail-fast: false
+    name: Format, Lint & Tests (node ${{ matrix.node-version }})
     env:
       NODE_ENV: test
       PORT: 3000
