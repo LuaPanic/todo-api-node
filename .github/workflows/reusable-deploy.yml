@@ -1,0 +1,59 @@
+name: Reusable Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: Target environment (staging or production)
+      compose_project:
+        required: true
+        type: string
+        description: Docker Compose project name
+    secrets:
+      SECRET_KEY:
+        required: true
+      API_KEY:
+        required: true
+      APP_PORT:
+        required: false
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    runs-on: homelab
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull and restart
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          API_KEY: ${{ secrets.API_KEY }}
+          APP_PORT: ${{ secrets.APP_PORT }}
+        run: |
+          docker compose -p ${{ inputs.compose_project }} pull
+          docker compose -p ${{ inputs.compose_project }} up -d --remove-orphans --force-recreate
+
+      - name: Smoke test post-deploy
+        run: |
+          sleep 5
+          curl --fail --retry 5 --retry-delay 3 \
+            http://localhost:${APP_PORT:-3000}/health
+          echo "Smoke test passed ✅"
+        env:
+          APP_PORT: ${{ secrets.APP_PORT }}

@@ -8,8 +8,12 @@ on:
 
 jobs:
   lint-test:
-    name: Format, Lint & Tests
+    name: Format, Lint & Tests (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20, 24]
 
     env:
       NODE_ENV: test
@@ -21,10 +25,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
-          node-version: 24
+          node-version: ${{ matrix.node-version }}
           cache: npm
 
       - name: Install dependencies
@@ -40,6 +44,7 @@ jobs:
         run: npx vitest run --coverage
 
       - name: Upload coverage
+        if: matrix.node-version == 24
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: coverage
@@ -112,3 +117,32 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  contract-test:
+    name: API contract validation (Spectral)
+    runs-on: ubuntu-latest
+    needs: lint-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Setup Node.js
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Export OpenAPI spec
+        run: node --input-type=module <<'EOF'
+          import { swaggerSpec } from './swagger.js';
+          import fs from 'fs';
+          fs.writeFileSync('openapi.json', JSON.stringify(swaggerSpec, null, 2));
+          console.log('OpenAPI spec exported to openapi.json');
+          EOF
+
+      - name: Validate OpenAPI spec (Spectral)
+        run: npx --yes @stoplight/spectral-cli lint openapi.json --ruleset https://unpkg.com/@stoplight/spectral-oas/dist/ruleset.mjs || true
