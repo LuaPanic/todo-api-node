@@ -7,7 +7,12 @@ const isDev =
 const stream = isDev ? pretty({ colorize: true }) : undefined
 
 const logger = pino(
-  { level: process.env.NODE_ENV === "test" ? "silent" : process.env.LOG_LEVEL || "info" },
+  {
+    level:
+      process.env.NODE_ENV === "test"
+        ? "silent"
+        : process.env.LOG_LEVEL || "info",
+  },
   stream,
 )
 
