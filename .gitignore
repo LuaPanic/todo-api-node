@@ -5,3 +5,4 @@ todo.db
 .secrets
 dist/
 .actrc
+score-self.mjs
