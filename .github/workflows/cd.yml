@@ -194,10 +194,10 @@ jobs:
         run: sleep 20
 
       - name: Smoke test — health
-        run: curl -sf "${{ secrets.HEALTH_URL }}/health" | grep -q '"ok"'
+        run: curl -sf "${{ vars.HEALTH_URL }}/health" | grep -q '"ok"'
 
       - name: Smoke test — homepage responds
-        run: curl -sf -o /dev/null -w "%{http_code}" "${{ secrets.HEALTH_URL }}" | grep -q "200"
+        run: curl -sf -o /dev/null -w "%{http_code}" "${{ vars.HEALTH_URL }}" | grep -q "200"
 
   notify:
     runs-on: ubuntu-latest
