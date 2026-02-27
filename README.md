@@ -6,6 +6,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-24-green?logo=node.js)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-5-black?logo=express)](https://expressjs.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Uptime](https://img.shields.io/uptimerobot/status/mnQBsxmhMG)](https://stats.uptimerobot.com/mnQBsxmhMG)
 
 A simple RESTful CRUD Todo API built with Express 5 and an in-process SQLite database ([sql.js](https://sql.js.org/)). Includes Swagger UI, a full CI pipeline (format, lint, tests, health check), and continuous deployment to GitHub Container Registry.
 
