@@ -2,6 +2,8 @@
 import { apiReference } from "@scalar/express-api-reference"
 import dotenv from "dotenv"
 import express from "express"
+import pinoHttp from "pino-http"
+import logger from "./logger.js"
 import todoRouter from "./routes/todo.js"
 import { swaggerSpec } from "./swagger.js"
 
@@ -11,10 +13,12 @@ dotenv.config({ quiet: true })
 const app = express()
 // Parse incoming JSON request bodies
 app.use(express.json())
+// HTTP request logging middleware
+app.use(pinoHttp({ logger }))
 
 // Root endpoint - welcome message
-app.get("/", (_req, res) => {
-  console.log("someone hit the root endpoint")
+app.get("/", (req, res) => {
+  req.log.info("someone hit the root endpoint")
   res.json({ message: "Welcome to the Enhanced Express Todo App!" })
 })
 
@@ -45,7 +49,7 @@ const PORT = process.env.PORT || 3000
 // Do not start the server when running tests
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () =>
-    console.log(`Server running on http://localhost:${PORT}`),
+    logger.info(`Server running on http://localhost:${PORT}`),
   )
 }
 
