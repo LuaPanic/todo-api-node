@@ -18,7 +18,7 @@ app.use(pinoHttp({ logger }))
 
 // Root endpoint - welcome message
 app.get("/", (req, res) => {
-  req.log.info("someone hit the root endpoint")
+  req.log.info("hit the root endpoint")
   res.json({ message: "Welcome to the Enhanced Express Todo App!" })
 })
 
