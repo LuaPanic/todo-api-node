@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Discord notification
-        uses: rjstone/discord-webhook-notify@v2
+        uses: rjstone/discord-webhook-notify@510c47fe8d6583687298dc08f8d0306957b82a9b
         with:
           severity: ${{ inputs.status == 'success' && 'info' || 'error' }}
           username: GitHub ${{ inputs.workflow_name }}
