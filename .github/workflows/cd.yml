@@ -200,30 +200,19 @@ jobs:
         run: curl -sf -o /dev/null -w "%{http_code}" "${{ vars.HEALTH_URL }}" | grep -q "200"
 
   notify:
-    runs-on: ubuntu-latest
-    needs: [build, perf-tests, security]
+    needs:
+      [
+        build,
+        perf-tests,
+        security,
+        deploy-staging,
+        deploy-production,
+        release-please,
+      ]
     if: always()
-    steps:
-      - name: Determine status
-        id: status
-        run: |
-          if [[ "${{ needs.build.result }}" == "success" && \
-                "${{ needs.perf-tests.result }}" == "success" && \
-                "${{ needs.security.result }}" == "success" ]]; then
-            echo "severity=info" >> $GITHUB_OUTPUT
-            echo "label=succes" >> $GITHUB_OUTPUT
-          else
-            echo "severity=error" >> $GITHUB_OUTPUT
-            echo "label=echec" >> $GITHUB_OUTPUT
-          fi
-      - name: Send Discord notification
-        uses: rjstone/discord-webhook-notify@v2
-        with:
-          severity: ${{ steps.status.outputs.severity }}
-          username: GitHub CD
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          text: "CD ${{ steps.status.outputs.label }} — ${{ github.ref_name }}"
-          details: |
-            Commit `${{ github.sha }}` par **${{ github.actor }}**
-            build: ${{ needs.build.result }} | perf-tests: ${{ needs.perf-tests.result }} | security: ${{ needs.security.result }}
-          footer: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+    uses: ./.github/workflows/notify.yml
+    with:
+      status: ${{ (needs.build.result == 'success' && needs.perf-tests.result == 'success' && needs.security.result == 'success') && 'success' || 'failure' }}
+      workflow_name: CD
+    secrets:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
