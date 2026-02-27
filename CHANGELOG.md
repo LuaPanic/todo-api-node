@@ -1,5 +1,40 @@
 # Changelog
 
+## [1.1.0](https://github.com/LuaPanic/todo-api-node/compare/v1.0.0...v1.1.0) (2026-02-27)
+
+
+### Features
+
+* add pino structured logging ([429767c](https://github.com/LuaPanic/todo-api-node/commit/429767c733ffd1fbca0ac40a1c797c26d39b0fa2))
+* add pino structured logging ([82981ef](https://github.com/LuaPanic/todo-api-node/commit/82981ef55a26c4aca06a76097c8aa2adf249978d))
+* **cd:** add Discord notification for CD status updates ([6035a52](https://github.com/LuaPanic/todo-api-node/commit/6035a52c30b59aad3109383c6471e3c78806df13))
+* **cd:** add Discord notification for CD status updates ([b0b493b](https://github.com/LuaPanic/todo-api-node/commit/b0b493bd026658ade268fe252a208b8dfb2682b4))
+* **ci:** add Discord notification step for CI status updates ([b26a477](https://github.com/LuaPanic/todo-api-node/commit/b26a4773cd1e3166d3df3ea2fd500eeeb7c4b757))
+* **ci:** add Discord notification step for CI status updates ([0a317dc](https://github.com/LuaPanic/todo-api-node/commit/0a317dc19ed3e1907ca21ee7dda84b0a0bec478d))
+* **ci:** add smoke tests for health and homepage response ([1ea0cb7](https://github.com/LuaPanic/todo-api-node/commit/1ea0cb711b5ffaed1694615ee465df3bfe008e2d))
+* **ci:** add smoke tests for health and homepage response ([ea0ca4a](https://github.com/LuaPanic/todo-api-node/commit/ea0ca4a281ed111e12f96542285b9b5f704287f2))
+* **ci:** extract Discord notify into reusable workflow ([d41919f](https://github.com/LuaPanic/todo-api-node/commit/d41919f5719583b029f45ebf4cf0e296cf612f07))
+* **ci:** extract Discord notify into reusable workflow ([52eb476](https://github.com/LuaPanic/todo-api-node/commit/52eb476f91ec426be21c09656868f1fc2e61de03))
+* **ci:** update job strategy to include matrix for node versions ([ca174e3](https://github.com/LuaPanic/todo-api-node/commit/ca174e3129f4f70722441c76811b77e2ac87c887))
+* **ci:** update job strategy to include matrix for node versions ([96650bf](https://github.com/LuaPanic/todo-api-node/commit/96650bfcfdb2c4e60387eeab427948123dc24470))
+
+
+### Bug Fixes
+
+* **cd:** update smoke tests to use vars for health URL ([54776e2](https://github.com/LuaPanic/todo-api-node/commit/54776e2614ba8aeb04e7a2f9f26f934aeb607ef4))
+* **ci:** correct node version matrix and uncomment job name ([0498938](https://github.com/LuaPanic/todo-api-node/commit/049893853c8e61ea9deb068cb395b05d069ce026))
+* **ci:** ensure notification job runs regardless of previous job outc… ([8da8737](https://github.com/LuaPanic/todo-api-node/commit/8da873754f18ad689f9bf6c328202f3adcc6e4c2))
+* **ci:** ensure notification job runs regardless of previous job outcomes ([75fe53d](https://github.com/LuaPanic/todo-api-node/commit/75fe53dee888c5a317b9d0de344c68308401359a))
+* **ci:** fix artifact name for SonarCloud coverage download ([bb2aafe](https://github.com/LuaPanic/todo-api-node/commit/bb2aafe0aca01ff6a7fa12ffc2ea94d915191bd9))
+* **ci:** pin discord-webhook-notify action to full commit SHA ([8881314](https://github.com/LuaPanic/todo-api-node/commit/8881314047883e123b020f42df6cc92074aff4fa))
+* **ci:** remove conditional check for notify job to run on all branches ([34c00ed](https://github.com/LuaPanic/todo-api-node/commit/34c00ed5393c6b24c063ed78a66c7438a6e31284))
+* **ci:** update condition for notification job to ensure proper execution ([b11fb3f](https://github.com/LuaPanic/todo-api-node/commit/b11fb3fa3de2d3564f6b793366c1bc19a203ae1b))
+* **ci:** update coverage artifact names to include node version ([9eb3036](https://github.com/LuaPanic/todo-api-node/commit/9eb3036cfafdba9224649ba87e211ca03b2479d8))
+* **ci:** update node matrix to versions 20, 22, 24 ([373ba20](https://github.com/LuaPanic/todo-api-node/commit/373ba20fbb32394030a7172124ce9b158013d985))
+* **ci:** use pattern to download all coverage artifacts for SonarCloud ([dc3f435](https://github.com/LuaPanic/todo-api-node/commit/dc3f4358696a97b07d164dd5354f6c44969f85ce))
+* **format:** fix prettier formatting ([0a290dd](https://github.com/LuaPanic/todo-api-node/commit/0a290ddfcdceb48fb0cdce21c2fec5911e4ee260))
+* **logger:** disable pino-pretty transport in test env ([d872dc4](https://github.com/LuaPanic/todo-api-node/commit/d872dc47b6229d43df60f711abebd1e6ddcf29b9))
+
 ## 1.0.0 (2026-02-25)
 
 ### Features
