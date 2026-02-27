@@ -63,10 +63,38 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
+  security:
+    name: Security scan
+    runs-on: ubuntu-latest
+    needs: build
+
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Trivy vulnerability scan
+        uses: aquasecurity/trivy-action@e368e328979b113139d6f9068e03accaed98a518
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          exit-code: 1
+          severity: CRITICAL,HIGH
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@383f7e52eae3ab0510c3cb0e7d9d150bbaeab838
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   release-please:
     name: Release Please (automated changelog)
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, security]
     if: github.ref == 'refs/heads/main'
 
     permissions:
@@ -81,7 +109,7 @@ jobs:
   deploy-staging:
     name: Deploy to staging
     runs-on: homelab
-    needs: build
+    needs: [build, security]
     if: github.ref == 'refs/heads/dev'
     environment: staging
 
@@ -108,7 +136,7 @@ jobs:
   deploy-production:
     name: Deploy to production
     runs-on: homelab
-    needs: build
+    needs: [build, security]
     if: github.ref == 'refs/heads/main'
     environment: production
 
@@ -142,11 +170,11 @@ jobs:
         run: curl -sf -o /dev/null -w "%{http_code}" "${{ vars.HEALTH_URL }}" | grep -q "200"
 
   notify:
-    needs: [build, deploy-staging, deploy-production, release-please]
+    needs: [build, security, deploy-staging, deploy-production, release-please]
     if: always()
     uses: ./.github/workflows/notify.yml
     with:
-      status: ${{ needs.build.result == 'success' && 'success' || 'failure' }}
+      status: ${{ (needs.build.result == 'success' && needs.security.result == 'success') && 'success' || 'failure' }}
       workflow_name: CD
     secrets:
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
