@@ -1,0 +1,28 @@
+name: Discord Notify
+
+on:
+  workflow_call:
+    inputs:
+      status:
+        required: true
+        type: string
+      workflow_name:
+        required: true
+        type: string
+    secrets:
+      DISCORD_WEBHOOK_URL:
+        required: true
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord notification
+        uses: rjstone/discord-webhook-notify@v2
+        with:
+          severity: ${{ inputs.status == 'success' && 'info' || 'error' }}
+          username: GitHub ${{ inputs.workflow_name }}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          text: "${{ inputs.workflow_name }} ${{ inputs.status == 'success' && 'succes' || 'echec' }} — ${{ github.ref_name }}"
+          details: "Commit `${{ github.sha }}` par **${{ github.actor }}**"
+          footer: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
